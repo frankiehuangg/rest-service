@@ -1,0 +1,44 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+}
+
+generator client {
+  provider  = "prisma-client-js"
+}
+
+model Likes {
+  user_id           Int
+  post_id           Int
+  @@id([user_id, post_id])
+}
+
+model Replies {
+  post_parent_id    Int
+  post_child_id     Int
+  @@id([post_parent_id, post_child_id])
+}
+
+model Tags {
+  post_id           Int
+  tags              String
+  @@id([post_id, tags])
+}
+
+model PostReports {
+  post_id           Int
+  user_id           Int
+  description       String    
+  status            String    @default("waiting")
+  @@id([post_id, user_id])
+}
+
+model Retweets {
+  user_id           Int
+  post_id           Int
+  content           String
+  @@id([post_id, user_id])
+}
