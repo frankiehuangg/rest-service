@@ -9,10 +9,11 @@ services:
     hostname: rest-service
     volumes:
       - .:/usr/src/app
+      - /usr/src/app/node_modules
     env_file:
       - .env
     ports:
-      - 8010:8000
+      - "8010:8000"
     depends_on:
       rest-db:
         condition: service_healthy
@@ -24,7 +25,7 @@ services:
       - rest-database
     hostname: rest-db
     ports:
-      - 5433:5432
+      - "5433:5432"
     restart: always
     environment:
       DATABASE_URL: ${DATABASE_URL}
