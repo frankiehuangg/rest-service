@@ -7,8 +7,8 @@ import handlerWrapperError from './src/utils/handlerWrapperError';
 import loginHandler from './src/handler/auth/login';
 
 const app = express();
-const PORT = 8000;
-const DB_URL = process.env.DATABASE_URL;
+const PORT = process.env.REST_PORT;
+const DB_URL = process.env.REST_DATABASE_URL;
 const startDate = new Date();
 
 app.listen(PORT, () => {
