@@ -5,10 +5,12 @@ import cors from 'cors'
 import prisma from './src/prisma'
 import handlerWrapperError from './src/utils/handlerWrapperError';
 import loginHandler from './src/handler/auth/login';
+import registerHandler from './src/handler/auth/register';
+import forgotPasswordHandler from './src/handler/auth/forgotPassword';
 
 const app = express();
-const PORT = 8000;
-const DB_URL = process.env.DATABASE_URL;
+const PORT = process.env.REST_PORT;
+const DB_URL = process.env.REST_DATABASE_URL;
 const startDate = new Date();
 
 app.listen(PORT, () => {
@@ -24,3 +26,7 @@ app.get('/', (_, res) => {
 })
 
 app.post('/login', handlerWrapperError(loginHandler))
+
+app.post('/register', handlerWrapperError(registerHandler))
+
+app.post('/forgotPassword', handlerWrapperError(forgotPasswordHandler))
