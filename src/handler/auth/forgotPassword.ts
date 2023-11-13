@@ -12,7 +12,7 @@ const forgotPasswordHandler = async (req: Request, res: Response) => {
             confirm_password: req.body.confirm_password
         }
 
-        const response = await axios.post(
+        const response = await axios.patch(
             "http://monolithic-web:80/api/auth/forget-password",
             body,
             {
