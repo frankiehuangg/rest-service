@@ -1,16 +1,15 @@
 import { Request, Response } from "express";
-import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import axios from 'axios';
 
 const loginHandler = async (req: Request, res: Response) => {
 
     try {
-        const requestBody = new URLSearchParams(req.body).toString();
+        const [username, password] = req.body;
 
         const body = {
-            username: 'amongus',
-            password: 'amongus'
+            username: username,
+            password: password
         };
 
         const response = await axios.post(
@@ -23,37 +22,25 @@ const loginHandler = async (req: Request, res: Response) => {
             }
         );
 
-        console.log(response);
-
-        const responseJSON = response.data;
+        const token = jwt.sign(response.data.username, 'rest-service', { algorithm:'RS256' })
         
-        return res.status(200).json(responseJSON);
+        const responseJSON = {
+            message: "Login successful",
+            token: token
+        }
         
-        // const phpResponse = await axios.post('http://host.docker.internal:8008/api/auth/login', {
-        //     headers: headers,
-        //     body: requestBody,
-        // }).then(response => {
-        //     console.log(response);
-        //     return res.status(200).json(response);
-        // }).catch(error => {
-        //     console.log(error);
-        // });
-
-        // if (!phpResponse.ok) {
-        //     throw new Error(`HTTP error! Status: ${phpResponse.status}`);
-        // }
-
-        // const responseData = await phpResponse.json();
-
-        // Process responseData as needed
-
-        // return res.status(200).json(responseData);
+        return res.status(200).json(responseJSON).redirect('/');
 
     } catch (error) {
-        console.error('Fetch error:', error);
-        return res.status(500).json({ error: 'Internal Server Error' });
+        if (axios.isAxiosError(error)) {
+            if (error.response?.status === 400) {
+                const data = {
+                    message: "User not found"
+                }
+                return res.status(400).json(data);
+            }
+        }
     }
-
 }
 
-export default loginHandler;
+export default loginHandler

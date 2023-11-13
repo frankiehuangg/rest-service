@@ -5,6 +5,8 @@ import cors from 'cors'
 import prisma from './src/prisma'
 import handlerWrapperError from './src/utils/handlerWrapperError';
 import loginHandler from './src/handler/auth/login';
+import registerHandler from './src/handler/auth/register';
+import forgotPasswordHandler from './src/handler/auth/forgotPassword';
 
 const app = express();
 const PORT = process.env.REST_PORT;
@@ -24,3 +26,7 @@ app.get('/', (_, res) => {
 })
 
 app.post('/login', handlerWrapperError(loginHandler))
+
+app.post('/register', handlerWrapperError(registerHandler))
+
+app.post('/forgotPassword', handlerWrapperError(forgotPasswordHandler))
