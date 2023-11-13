@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import axios from "axios";
 import jwt from "jsonwebtoken";
+import qs from "qs";
 
 const forgotPasswordHandler = async (req: Request, res: Response) => {
 
@@ -14,7 +15,7 @@ const forgotPasswordHandler = async (req: Request, res: Response) => {
 
         const response = await axios.patch(
             "http://monolithic-web:80/api/auth/forget-password",
-            body,
+            qs.stringify(body),
             {
                 headers: {
                     'Content-Type' : 'multipart/form-data'

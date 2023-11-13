@@ -40,7 +40,7 @@ const loginHandler = async (req: Request, res: Response) => {
             token: token
         }
         
-        return res.status(200).json(responseJSON);
+        return res.json(responseJSON).redirect('/');
 
     } catch (error) {
         if (axios.isAxiosError(error)) {
