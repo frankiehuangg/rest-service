@@ -7,6 +7,8 @@ import handlerWrapperError from './src/utils/handlerWrapperError';
 import loginHandler from './src/handler/auth/login';
 import registerHandler from './src/handler/auth/register';
 import forgotPasswordHandler from './src/handler/auth/forgotPassword';
+import getUserReports from './src/handler/reports/user_reports';
+import getPostReports from './src/handler/reports/post_report';
 
 const app = express();
 const PORT = process.env.REST_PORT;
@@ -24,6 +26,10 @@ app.use(cors());
 app.get('/', (_, res) => {
     res.send(`Server has started since ${startDate}`);
 })
+
+app.get('/user-reports', handlerWrapperError(getUserReports))
+
+app.get('/post-reports', handlerWrapperError(getPostReports))
 
 app.post('/login', handlerWrapperError(loginHandler))
 
