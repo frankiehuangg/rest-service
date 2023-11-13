@@ -42,7 +42,7 @@ const registerHandler = async (req: Request, res: Response) => {
             token: token
         }
 
-        return res.json(responseJSON).redirect('/');
+        return res.status(200).json(responseJSON);
 
     } catch (error) {
         if (axios.isAxiosError(error)) {

@@ -28,7 +28,7 @@ const forgotPasswordHandler = async (req: Request, res: Response) => {
             data: response.data.data
         }
 
-        return res.json(responseJSON).redirect('/login')
+        return res.status(200).json(responseJSON)
 
     } catch (err) { 
         if (axios.isAxiosError(err)) {
