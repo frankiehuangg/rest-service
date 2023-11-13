@@ -35,7 +35,7 @@ const registerHandler = async (req: Request, res: Response) => {
 
     } catch (error) {
         if (axios.isAxiosError(error)) {
-            if (error.response?.status !== 400) {
+            if (error.response?.status === 400) {
                 return res.json({ message: error.message });
             }
         }

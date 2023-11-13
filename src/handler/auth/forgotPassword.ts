@@ -34,9 +34,9 @@ const forgotPasswordHandler = async (req: Request, res: Response) => {
         if (axios.isAxiosError(err)) {
             if (err.response?.status === 400) {
                 const data = {
-                    message: "Reset password failed"
+                    message: "User was not found, reset password failed"
                 }
-                return res.status(500).json(data)
+                return res.status(400).json(data)
             }
         }
     }
