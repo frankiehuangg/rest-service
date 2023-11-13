@@ -4,14 +4,12 @@ import jwt from 'jsonwebtoken';
 
 const registerHandler = async (req: Request, res: Response) => {
 
-    const [username, email, password, confirm_password] = req.body
-
     try {
         const body = {
-            username: username,
-            email: email,
-            password: password,
-            confirm_password: confirm_password
+            username: req.body.username,
+            email: req.body.email,
+            password: req.body.password,
+            confirm_password: req.body.confirm_password
         }
 
         const response = await axios.post(
@@ -24,14 +22,27 @@ const registerHandler = async (req: Request, res: Response) => {
             }
         )
 
-        const token = jwt.sign(response.data.username, 'rest-service', { algorithm: 'RS256' })
+        const username = response.data.data.username
+        const isAdmin = response.data.data.is_admin
+        const secret = process.env.REST_SECRET_TOKEN ?? ''
+
+        const token = jwt.sign(
+            { 
+                username: username,
+                isAdmin: isAdmin
+            }, 
+            secret, 
+            { 
+                expiresIn:'30m' 
+            }
+        )
 
         const responseJSON = {
             message: "Registration successful",
             token: token
         }
 
-        return res.status(200).json(responseJSON).redirect('/')
+        return res.json(responseJSON).redirect('/');
 
     } catch (error) {
         if (axios.isAxiosError(error)) {

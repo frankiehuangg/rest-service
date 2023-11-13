@@ -29,4 +29,4 @@ app.post('/login', handlerWrapperError(loginHandler))
 
 app.post('/register', handlerWrapperError(registerHandler))
 
-app.post('/forgotPassword', handlerWrapperError(forgotPasswordHandler))
+app.patch('/forgot-password', handlerWrapperError(forgotPasswordHandler))
