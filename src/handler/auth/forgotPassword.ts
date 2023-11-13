@@ -4,17 +4,15 @@ import jwt from "jsonwebtoken";
 
 const forgotPasswordHandler = async (req: Request, res: Response) => {
 
-    const [email, password, confirm_password] = req.body
-
     try {
 
         const body = {
-            email: email,
-            password: password,
-            confirm_password: confirm_password
+            email: req.body.email,
+            password: req.body.password,
+            confirm_password: req.body.confirm_password
         }
 
-        const response = axios.post(
+        const response = await axios.post(
             "http://monolithic-web:80/api/auth/forget-password",
             body,
             {
@@ -25,7 +23,8 @@ const forgotPasswordHandler = async (req: Request, res: Response) => {
         )
 
         const responseJSON = {
-            message: "Reset password successful"
+            message: "Reset password successful",
+            data: response.data.data
         }
 
         return res.json(responseJSON).redirect('/login')
