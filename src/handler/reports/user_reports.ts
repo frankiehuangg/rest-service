@@ -4,8 +4,10 @@ import axios from "axios";
 export const getUserReports = async (req: Request, res: Response) => {
     
     try {
+        const page = req.params.page
+
         const response = await axios.get(
-            'http://monolithic-web:80/api/user_report/read',
+            'http://monolithic-web:80/report_list/' + page,
             {
                 headers: {
                     'Content-Type': 'multipart/form-data'
