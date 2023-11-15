@@ -37,6 +37,6 @@ app.get('/post-reports', verifyToken, getPostReports)
 
 app.post('/post-reports/:id/status', verifyToken, setPostReportStatus)
 
-app.get('/user-reports', verifyToken, getUserReports)
+app.get('/user-reports/:page', verifyToken, getUserReports)
 
 app.patch('/user-reports/:id/status', verifyToken, setUserReportStatus)
