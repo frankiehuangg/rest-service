@@ -8,12 +8,12 @@ const verifyAdminToken = (req: Request, res: Response, next: NextFunction) => {
         const token = authHeader.split(' ')[1]
 
         jwt.verify(token, process.env.REST_SERVICE_TOKEN as string, (err: any, decoded: any) => {
-            if (err || !decoded.isAdmin) {
+            if (err || !decoded || !decoded.isAdmin) {
                 return res.status(403)
             }
-
-            next()
         })
+        
+        next()
     } else {
         res.status(401)
     }
