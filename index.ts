@@ -12,6 +12,7 @@ import { verifyAdminToken, verifyTokenGeneral } from './src/middleware/verifyTok
 import { getPostReports, setPostReportStatus } from './src/handler/reports/post_report';
 import { getUserReports, setUserReportStatus } from './src/handler/reports/user_reports';
 import { getUserData, updateUserData, deleteUserData } from './src/handler/user/user';
+import { getPostByPostId, getResourceByPostId, getUserByPostId } from './src/posts/posts';
 
 const app = express();
 const PORT = process.env.REST_PORT;
@@ -42,6 +43,12 @@ app.patch('/forgot-password', handlerWrapperError(forgotPasswordHandler))
 app.get('/post-reports', verifyAdminToken, getPostReports)
 
 app.patch('/post-reports/status', verifyAdminToken, setPostReportStatus)
+
+app.get('/post', getPostByPostId);
+
+app.get('/post/user', getUserByPostId);
+
+app.get('/post/resource', getResourceByPostId);
 
 app.get('/user-reports/:page', verifyAdminToken, getUserReports)
 
