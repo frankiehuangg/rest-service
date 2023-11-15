@@ -38,7 +38,7 @@ app.post('/register', handlerWrapperError(registerHandler))
 
 app.patch('/forgot-password', handlerWrapperError(forgotPasswordHandler))
 
-app.get('/post-reports', verifyToken, getPostReports)
+app.get('/post-reports', getPostReports)
 
 app.post('/post-reports/:id/status', verifyToken, setPostReportStatus)
 
