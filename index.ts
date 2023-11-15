@@ -8,7 +8,7 @@ import handlerWrapperError from './src/utils/handlerWrapperError';
 import loginHandler from './src/handler/auth/login';
 import registerHandler from './src/handler/auth/register';
 import forgotPasswordHandler from './src/handler/auth/forgotPassword';
-import verifyAdminToken from './src/middleware/verifyToken';
+import { verifyAdminToken, verifyTokenGeneral } from './src/middleware/verifyToken';
 import { getPostReports, setPostReportStatus } from './src/handler/reports/post_report';
 import { getUserReports, setUserReportStatus } from './src/handler/reports/user_reports';
 import { getUserData, updateUserData, deleteUserData } from './src/handler/user/user';
@@ -47,8 +47,8 @@ app.get('/user-reports/:page', verifyAdminToken, getUserReports)
 
 app.patch('/user-reports/status', verifyAdminToken, setUserReportStatus)
 
-app.get('/user/:id', getUserData)
+app.get('/user/:id', verifyTokenGeneral, getUserData)
 
-app.patch('/user', updateUserData)
+app.patch('/user', verifyTokenGeneral, updateUserData)
 
-app.delete('/user', deleteUserData)
+app.delete('/user', verifyTokenGeneral, deleteUserData)
