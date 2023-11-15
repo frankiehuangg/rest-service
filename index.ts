@@ -35,7 +35,7 @@ app.patch('/forgot-password', handlerWrapperError(forgotPasswordHandler))
 
 app.get('/post-reports', verifyAdminToken, getPostReports)
 
-app.post('/post-reports/:id/status', verifyAdminToken, setPostReportStatus)
+app.post('/post-reports/:post_id/:user_id/status', verifyAdminToken, setPostReportStatus)
 
 app.get('/user-reports/:page', verifyAdminToken, getUserReports)
 
