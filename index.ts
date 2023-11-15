@@ -13,6 +13,7 @@ import { getPostReports, setPostReportStatus } from './src/handler/reports/post_
 import { getUserReports, setUserReportStatus } from './src/handler/reports/user_reports';
 import { getUserData, updateUserData, deleteUserData } from './src/handler/user/user';
 import { getPostByPostId, getResourceByPostId, getUserByPostId } from './src/handler/posts/posts';
+import { decodeToken } from './src/middleware/tokenDecode';
 
 const app = express();
 const PORT = process.env.REST_PORT;
