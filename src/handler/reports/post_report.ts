@@ -18,10 +18,11 @@ export const getPostReports = async (req : Request, res : Response) => {
 }
 
 export const setPostReportStatus = async (req : Request, res : Response) => {
-    const post_id = req.params.post_id
-    const user_id = req.params.user_id
-
+    
     try {
+        const post_id = req.body.post_id
+        const user_id = req.body.user_id
+
         const report = await prisma.postReports.update({ 
             where: {
                 post_id_user_id: {

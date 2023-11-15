@@ -11,6 +11,7 @@ import forgotPasswordHandler from './src/handler/auth/forgotPassword';
 import verifyAdminToken from './src/middleware/verifyToken';
 import { getPostReports, setPostReportStatus } from './src/handler/reports/post_report';
 import { getUserReports, setUserReportStatus } from './src/handler/reports/user_reports';
+import { getUserData, updateUserData, deleteUserData } from './src/handler/user/user';
 
 const app = express();
 const PORT = process.env.REST_PORT;
@@ -40,8 +41,14 @@ app.patch('/forgot-password', handlerWrapperError(forgotPasswordHandler))
 
 app.get('/post-reports', verifyAdminToken, getPostReports)
 
-app.post('/post-reports/:post_id/:user_id/status', verifyAdminToken, setPostReportStatus)
+app.patch('/post-reports/status', verifyAdminToken, setPostReportStatus)
 
 app.get('/user-reports/:page', verifyAdminToken, getUserReports)
 
-app.patch('/user-reports/:id/status', verifyAdminToken, setUserReportStatus)
+app.patch('/user-reports/status', verifyAdminToken, setUserReportStatus)
+
+app.get('/user/:id', getUserData)
+
+app.patch('/user', updateUserData)
+
+app.delete('/user', deleteUserData)
