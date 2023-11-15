@@ -39,11 +39,11 @@ app.get('/', (_, res) => {
 /* USER API ENDPOINTS */
 /**********************/
 
-app.get('/user', getUserData)
+app.get('/user', decodeToken, getUserData)
 
-app.patch('/user', updateUserData)
+app.patch('/user', decodeToken, updateUserData)
 
-app.delete('/user', deleteUserData)
+app.delete('/user', decodeToken, deleteUserData)
 
 /**********************/
 /* POST API ENDPOINTS */
