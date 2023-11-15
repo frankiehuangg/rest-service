@@ -54,8 +54,8 @@ app.get('/user-reports/:page', verifyAdminToken, getUserReports)
 
 app.patch('/user-reports/status', verifyAdminToken, setUserReportStatus)
 
-app.get('/user/:id', verifyTokenGeneral, getUserData)
+app.get('/user', getUserData)
 
-app.patch('/user', verifyTokenGeneral, updateUserData)
+app.patch('/user', updateUserData)
 
-app.delete('/user', verifyTokenGeneral, deleteUserData)
+app.delete('/user', deleteUserData)
