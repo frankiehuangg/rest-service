@@ -12,7 +12,7 @@ import { verifyAdminToken, verifyTokenGeneral } from './src/middleware/verifyTok
 import { getPostReports, setPostReportStatus } from './src/handler/reports/post_report';
 import { getUserReports, setUserReportStatus } from './src/handler/reports/user_reports';
 import { getUserData, updateUserData, deleteUserData } from './src/handler/user/user';
-import { getPostByPostId, getResourceByPostId, getUserByPostId } from './src/posts/posts';
+import { getPostByPostId, getResourceByPostId, getUserByPostId } from './src/handler/posts/posts';
 
 const app = express();
 const PORT = process.env.REST_PORT;
