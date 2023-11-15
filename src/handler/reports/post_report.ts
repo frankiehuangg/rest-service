@@ -1,9 +1,10 @@
 import { Request, Response} from 'express';
 import prisma from '../../prisma';
+import qs from 'qs'
 
 export const getPostReports = async (req : Request, res : Response) => {
     try {
-        const page = parseInt(req.params.page)
+        const page = parseInt(qs.stringify(req.query.page))
         const offset = page * 10
 
         const reports = await prisma.postReports.findMany({
