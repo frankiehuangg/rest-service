@@ -22,13 +22,13 @@ const registerHandler = async (req: Request, res: Response) => {
             }
         )
 
-        const username = response.data.data.username
+        const user_id = response.data.data.user_id
         const isAdmin = response.data.data.is_admin
         const secret = process.env.REST_SECRET_TOKEN ?? ''
 
         const token = jwt.sign(
             { 
-                username: username,
+                user_id: user_id,
                 isAdmin: isAdmin
             }, 
             secret, 

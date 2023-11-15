@@ -25,7 +25,6 @@ const forgotPasswordHandler = async (req: Request, res: Response) => {
 
         const responseJSON = {
             message: "Reset password successful",
-            data: response.data.data
         }
 
         return res.status(200).json(responseJSON)
