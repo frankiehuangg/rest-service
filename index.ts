@@ -8,7 +8,7 @@ import handlerWrapperError from './src/utils/handlerWrapperError';
 import loginHandler from './src/handler/auth/login';
 import registerHandler from './src/handler/auth/register';
 import forgotPasswordHandler from './src/handler/auth/forgotPassword';
-import verifyToken from './src/middleware/verifyToken';
+import verifyAdminToken from './src/middleware/verifyToken';
 import { getPostReports, setPostReportStatus } from './src/handler/reports/post_report';
 import { getUserReports, setUserReportStatus } from './src/handler/reports/user_reports';
 
@@ -38,10 +38,10 @@ app.post('/register', handlerWrapperError(registerHandler))
 
 app.patch('/forgot-password', handlerWrapperError(forgotPasswordHandler))
 
-app.get('/post-reports', getPostReports)
+app.get('/post-reports', verifyAdminToken, getPostReports)
 
-app.post('/post-reports/:id/status', verifyToken, setPostReportStatus)
+app.post('/post-reports/:id/status', verifyAdminToken, setPostReportStatus)
 
-app.get('/user-reports/:page', verifyToken, getUserReports)
+app.get('/user-reports/:page', verifyAdminToken, getUserReports)
 
-app.patch('/user-reports/:id/status', verifyToken, setUserReportStatus)
+app.patch('/user-reports/:id/status', verifyAdminToken, setUserReportStatus)
