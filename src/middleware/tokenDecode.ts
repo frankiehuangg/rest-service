@@ -8,7 +8,7 @@ export const decodeToken = (req: Request, res: Response, next: NextFunction) => 
         const token = authHeader.split(' ')[1]
 
         jwt.verify(token, process.env.REST_SECRET_TOKEN as string, (err: any, decoded: any) => {
-            if (err || !decoded || !decoded.isAdmin) {
+            if (err || !decoded ) {
                 return res.status(403)
             }
 
