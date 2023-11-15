@@ -7,7 +7,7 @@ export const getUserReports = async (req: Request, res: Response) => {
         const page = req.params.page
 
         const response = await axios.get(
-            'http://monolithic-web:80/report_list/' + page,
+            'http://monolithic-web:80/user_report/read?page=' + page + '&json=true',
             {
                 headers: {
                     'Content-Type': 'multipart/form-data'
