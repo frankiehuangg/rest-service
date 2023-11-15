@@ -4,10 +4,10 @@ import axios from "axios";
 export const getUserReports = async (req: Request, res: Response) => {
     
     try {
-        const page = req.params.page
+        const page = req.query.page
 
         const response = await axios.get(
-            'http://monolithic-web:80/user_report/read?page=' + page + '&json=true',
+            `http://monolithic-web:80/api/user_report/read?page=${page}&json=true`,
             {
                 headers: {
                     'Content-Type': 'multipart/form-data'
@@ -17,7 +17,7 @@ export const getUserReports = async (req: Request, res: Response) => {
     
         const data = response.data.data
     
-        return res.status(200).json({ message: 'Status change successful' })
+        return res.status(200).json(data)
     } catch (err) {
         if (axios.isAxiosError(err)) {
             if (err.response?.status === 404) {

@@ -35,15 +35,19 @@ app.get('/', (_, res) => {
     res.send(`Server has started since ${startDate}`);
 })
 
-app.post('/login', handlerWrapperError(loginHandler))
+/**********************/
+/* USER API ENDPOINTS */
+/**********************/
 
-app.post('/register', handlerWrapperError(registerHandler))
+app.get('/user', getUserData)
 
-app.patch('/forgot-password', handlerWrapperError(forgotPasswordHandler))
+app.patch('/user', updateUserData)
 
-app.get('/post-reports/:page', verifyAdminToken, getPostReports)
+app.delete('/user', deleteUserData)
 
-app.patch('/post-reports/status', verifyAdminToken, setPostReportStatus)
+/**********************/
+/* POST API ENDPOINTS */
+/**********************/
 
 app.get('/post', getPostByPostId);
 
@@ -51,12 +55,28 @@ app.get('/post/user', getUserByPostId);
 
 app.get('/post/resource', getResourceByPostId);
 
-app.get('/user-reports/:page', verifyAdminToken, getUserReports)
+/**********************/
+/* AUTH API ENDPOINTS */
+/**********************/
+
+app.post('/login', handlerWrapperError(loginHandler))
+
+app.post('/register', handlerWrapperError(registerHandler))
+
+app.patch('/forgot-password', handlerWrapperError(forgotPasswordHandler))
+
+/******************************/
+/* POST REPORTS API ENDPOINTS */
+/******************************/
+
+app.get('/post-reports', verifyAdminToken, getPostReports)
+
+app.patch('/post-reports/status', verifyAdminToken, setPostReportStatus)
+
+/******************************/
+/* USER REPORTS API ENDPOINTS */
+/******************************/
+
+app.get('/user-reports', verifyAdminToken, getUserReports)
 
 app.patch('/user-reports/status', verifyAdminToken, setUserReportStatus)
-
-app.get('/user', decodeToken, getUserData)
-
-app.patch('/user', decodeToken, updateUserData)
-
-app.delete('/user', decodeToken, deleteUserData)
