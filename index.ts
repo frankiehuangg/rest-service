@@ -13,6 +13,7 @@ import { getPostReports, setPostReportStatus } from './src/handler/reports/post_
 import { getUserReports, setUserReportStatus } from './src/handler/reports/user_reports';
 import { getUserData, updateUserData, deleteUserData } from './src/handler/user/user';
 import { getPostByPostId, getResourceByPostId, getUserByPostId } from './src/handler/posts/posts';
+import { decodeToken } from './src/middleware/tokenDecode';
 
 const app = express();
 const PORT = process.env.REST_PORT;
@@ -54,8 +55,8 @@ app.get('/user-reports/:page', verifyAdminToken, getUserReports)
 
 app.patch('/user-reports/status', verifyAdminToken, setUserReportStatus)
 
-app.get('/user', getUserData)
+app.get('/user', decodeToken, getUserData)
 
-app.patch('/user', updateUserData)
+app.patch('/user', decodeToken, updateUserData)
 
-app.delete('/user', deleteUserData)
+app.delete('/user', decodeToken, deleteUserData)
