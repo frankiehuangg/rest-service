@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
-import axios from 'axios';
+import axios from "axios";
 
 const getUserReports = async (req: Request, res: Response) => {
-
+    
     try {
         const response = await axios.get(
             'http://monolithic-web:80/api/user_report/read',
@@ -12,13 +12,14 @@ const getUserReports = async (req: Request, res: Response) => {
                 }
             }
         )
-
-        return res.status(200).json(response.data);
-
+    
+        const data = response.data.data
+    
+        return res.status(200).json(data)
     } catch (err) {
         if (axios.isAxiosError(err)) {
-            if (err.response?.status === 400) {
-                return res.status(400).json({ message: "No reports found" })
+            if (err.response?.status === 404) {
+                return res.status(404).json({ message: "Data not found" })
             } else if (err.response?.status === 500) {
                 return res.status(500).json({ message: "Internal server error" })
             }
@@ -27,4 +28,4 @@ const getUserReports = async (req: Request, res: Response) => {
 
 }
 
-export default getUserReports;
+export default getUserReports

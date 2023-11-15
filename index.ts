@@ -7,8 +7,9 @@ import handlerWrapperError from './src/utils/handlerWrapperError';
 import loginHandler from './src/handler/auth/login';
 import registerHandler from './src/handler/auth/register';
 import forgotPasswordHandler from './src/handler/auth/forgotPassword';
-import getUserReports from './src/handler/reports/user_reports';
+import verifyToken from './src/middleware/verifyToken';
 import getPostReports from './src/handler/reports/post_report';
+import getUserReports from './src/handler/reports/user_reports';
 
 const app = express();
 const PORT = process.env.REST_PORT;
@@ -27,12 +28,12 @@ app.get('/', (_, res) => {
     res.send(`Server has started since ${startDate}`);
 })
 
-app.get('/user-reports', handlerWrapperError(getUserReports))
-
-app.get('/post-reports', handlerWrapperError(getPostReports))
-
 app.post('/login', handlerWrapperError(loginHandler))
 
 app.post('/register', handlerWrapperError(registerHandler))
 
-app.post('/forgotPassword', handlerWrapperError(forgotPasswordHandler))
+app.patch('/forgot-password', handlerWrapperError(forgotPasswordHandler))
+
+app.get('/post-reports', verifyToken, getPostReports)
+
+app.get('/user-reports', verifyToken, getUserReports)
