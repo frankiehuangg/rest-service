@@ -1,18 +1,19 @@
 import { Request, Response } from "express";
 import axios from "axios";
+import qs from 'qs';
 
 export const getUserData = async (req: Request, res: Response) => {
     try {
-        const user_id = req.params.user_id;
+        const user_id = req.query.user_id;
 
-        const headers = {
-            'Content-Type': 'multipart/form-data'
-        }
+        const url = `http://monolithic-web:80/api/user?user_id=${user_id}`;
 
         const response = await axios.get(
-            'http://monolithic-web:80/api/user/readOne/' + user_id,
+            url,
             {
-                headers: headers
+                headers: {
+                    "Content-Type": "application/json"
+                }
             }
         );
 
@@ -40,7 +41,7 @@ export const updateUserData = async (req: Request, res: Response) => {
 
         const response = await axios.patch(
             'http://monolithic-web:80/api/user/update/' + user_id,
-            req.body,
+            qs.stringify(req.body),
             {
                 headers: headers
             }
