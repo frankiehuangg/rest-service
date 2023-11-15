@@ -2,7 +2,6 @@ require('dotenv').config()
 
 import express from 'express'
 import cors from 'cors'
-import prisma from './src/prisma'
 import handlerWrapperError from './src/utils/handlerWrapperError';
 import loginHandler from './src/handler/auth/login';
 import registerHandler from './src/handler/auth/register';
