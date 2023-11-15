@@ -40,7 +40,7 @@ app.post('/register', handlerWrapperError(registerHandler))
 
 app.patch('/forgot-password', handlerWrapperError(forgotPasswordHandler))
 
-app.get('/post-reports', verifyAdminToken, getPostReports)
+app.get('/post-reports/:page', verifyAdminToken, getPostReports)
 
 app.patch('/post-reports/status', verifyAdminToken, setPostReportStatus)
 

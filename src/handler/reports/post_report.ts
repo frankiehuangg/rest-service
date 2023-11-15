@@ -3,8 +3,13 @@ import prisma from '../../prisma';
 
 export const getPostReports = async (req : Request, res : Response) => {
     try {
-        
-        const reports = await prisma.postReports.findMany()
+        const page = parseInt(req.params.page)
+        const offset = page * 10
+
+        const reports = await prisma.postReports.findMany({
+            skip: offset,
+            take: 10
+        })
 
         if (reports) {
             return res.status(200).json(reports);
