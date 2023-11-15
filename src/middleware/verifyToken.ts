@@ -7,13 +7,12 @@ const verifyAdminToken = (req: Request, res: Response, next: NextFunction) => {
     if (authHeader) {
         const token = authHeader.split(' ')[1]
 
-        jwt.verify(token, process.env.REST_SERVICE_TOKEN as string, (err: any, decoded: any) => {
+        jwt.verify(token, process.env.REST_SECRET_TOKEN as string, (err: any, decoded: any) => {
             if (err || !decoded || !decoded.isAdmin) {
                 return res.status(403)
             }
+            next()
         })
-        
-        next()
     } else {
         res.status(401)
     }
