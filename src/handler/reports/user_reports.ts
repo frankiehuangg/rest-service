@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import axios from "axios";
 
-const getUserReports = async (req: Request, res: Response) => {
+export const getUserReports = async (req: Request, res: Response) => {
     
     try {
         const response = await axios.get(
@@ -19,13 +19,41 @@ const getUserReports = async (req: Request, res: Response) => {
     } catch (err) {
         if (axios.isAxiosError(err)) {
             if (err.response?.status === 404) {
-                return res.status(404).json({ message: "Data not found" })
+                return res.status(404)
             } else if (err.response?.status === 500) {
-                return res.status(500).json({ message: "Internal server error" })
+                return res.status(500)
             }
         }
     }
 
 }
 
-export default getUserReports
+export const setUserReportStatus = async (req: Request, res: Response) => {
+    
+    try {
+        const report_id = req.params.id
+
+        const body = {
+            report_id: report_id,
+            status: req.body.status
+        }
+
+        const report = await axios.patch(
+            'http://monolithic-web:80/api/user_report/update',
+            JSON.stringify(body),
+            {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            }
+        )
+
+        if (report) {
+            return res.status(200).json(report)
+        } else {
+            return res.status(404).json({ message: 'Report not found' })
+        }
+    } catch (err) {
+        return res.status(500).json({ message: "Internal server error" })
+    }
+}

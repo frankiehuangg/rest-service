@@ -2,14 +2,13 @@ require('dotenv').config()
 
 import express from 'express'
 import cors from 'cors'
-import prisma from './src/prisma'
 import handlerWrapperError from './src/utils/handlerWrapperError';
 import loginHandler from './src/handler/auth/login';
 import registerHandler from './src/handler/auth/register';
 import forgotPasswordHandler from './src/handler/auth/forgotPassword';
 import verifyToken from './src/middleware/verifyToken';
-import getPostReports from './src/handler/reports/post_report';
-import getUserReports from './src/handler/reports/user_reports';
+import { getPostReports, setPostReportStatus } from './src/handler/reports/post_report';
+import { getUserReports, setUserReportStatus } from './src/handler/reports/user_reports';
 
 const app = express();
 const PORT = process.env.REST_PORT;
@@ -36,4 +35,8 @@ app.patch('/forgot-password', handlerWrapperError(forgotPasswordHandler))
 
 app.get('/post-reports', verifyToken, getPostReports)
 
+app.post('/post-reports/:id/status', verifyToken, setPostReportStatus)
+
 app.get('/user-reports', verifyToken, getUserReports)
+
+app.patch('/user-reports/:id/status', verifyToken, setUserReportStatus)
