@@ -36,7 +36,7 @@ export const setPostReportStatus = async (req : Request, res : Response) => {
         })
 
         if (report) {
-            return res.status(200).json(report)
+            return res.status(200).json({ message: 'Status change successful' })
         } else {
             return res.status(404).json({ message: 'Report not found' })
         }

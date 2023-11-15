@@ -17,7 +17,7 @@ export const getUserReports = async (req: Request, res: Response) => {
     
         const data = response.data.data
     
-        return res.status(200).json(data)
+        return res.status(200).json({ message: 'Status change successful' })
     } catch (err) {
         if (axios.isAxiosError(err)) {
             if (err.response?.status === 404) {
