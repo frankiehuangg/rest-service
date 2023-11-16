@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
-import axios from "axios";
+import axios, { isAxiosError } from "axios";
+import prisma from "../../prisma";
 
 export const getPostByPostId = async (req: Request, res: Response) => {
     try {
@@ -85,5 +86,52 @@ export const getResourceByPostId = async (req: Request, res: Response) => {
         return res.status(200).json(resource);
     } catch (error) {
         return res.status(400).json(error);
+    }
+}
+
+export const getRepliesByPostId = async (req: Request, res: Response) => {
+    try {
+        const post_id = req.params.post_id
+
+        const replyIds = await prisma.replies.findMany({
+            where: {
+                post_parent_id: parseInt(post_id)
+            }
+        })
+
+        let body: any[] = []
+
+        replyIds.forEach( async (reply) => {
+            const headers = {
+                'Content-Type': 'multipart/form-data'
+            }
+
+            const response = await axios.get(
+                `http://monolithic-web:80/api/post?post_id=${reply.post_child_id}`,
+                {
+                    headers: headers
+                }
+            )
+
+            const data = response.data.data
+
+            body.push(data)
+        })
+
+        if (body.length > 0) {
+            return res.status(200).json(body)
+        } else {
+            return res.status(404).json({ message: "No replies found" })
+        }
+    } catch (err) {
+        if (axios.isAxiosError(err)) {
+            if (err.response?.status === 404) {
+                return res.status(404).json({ message: "Data not found" })
+            } else if (err.response?.status === 500) {
+                return res.status(500).json({ message: "Internal Server Error" })
+            }
+        } else {
+            return res.status(500).json({ message: "Internal server error, database error" })
+        }
     }
 }

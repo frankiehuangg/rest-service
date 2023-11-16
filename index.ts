@@ -12,7 +12,7 @@ import { verifyAdminToken, verifyTokenGeneral } from './src/middleware/verifyTok
 import { getPostReports, setPostReportStatus } from './src/handler/reports/post_report';
 import { getUserReports, setUserReportStatus } from './src/handler/reports/user_reports';
 import { getUserData, updateUserData, deleteUserData } from './src/handler/user/user';
-import { getPostByPostId, getResourceByPostId, getUserByPostId } from './src/handler/posts/posts';
+import { getPostByPostId, getResourceByPostId, getUserByPostId, getRepliesByPostId } from './src/handler/posts/posts';
 import { decodeToken } from './src/middleware/tokenDecode';
 
 const app = express();
@@ -54,6 +54,8 @@ app.get('/post', getPostByPostId);
 app.get('/post/user', getUserByPostId);
 
 app.get('/post/resource', getResourceByPostId);
+
+app.get('/post/replies', getRepliesByPostId);
 
 /**********************/
 /* AUTH API ENDPOINTS */
