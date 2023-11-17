@@ -1,6 +1,7 @@
 import { Request, Response } from "express"
 import FollowSoapClient from "../../clients/FollowSoapClient";
 import axios from "axios";
+import NotificationSoapClient from "../../clients/NotificationSoapClient";
 
 interface UserCard {
     user_id: number,
@@ -127,6 +128,13 @@ export const followUserWithUserId = async (req: Request, res: Response) => {
         const client = new FollowSoapClient();
 
         const response = await client.createFollow(current_user_id, other_user_id);
+
+        const notificationClient = new NotificationSoapClient();
+
+        const notificationResponse = await notificationClient.createNotification(
+            current_user_id, 
+            `User with ID ${other_user_id} has followed you.`
+        );
         
         return res.status(200).json(response);
 

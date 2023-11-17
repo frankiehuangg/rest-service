@@ -2,6 +2,7 @@ import { Request, Response } from "express"
 import prisma from "../../prisma"
 import axios from "axios";
 import qs from 'qs';
+import NotificationSoapClient from "../../clients/NotificationSoapClient";
 
 export const insertLikesByPostId = async (req: Request, res: Response) => {
     try {
@@ -45,6 +46,15 @@ export const insertLikesByPostId = async (req: Request, res: Response) => {
                         "Content-Type": "application/x-www-form-urlencoded"
                     }
                 }
+            );
+
+            const notificationClient = new NotificationSoapClient();
+
+            const poster_user_id = postResponse.data.data.user_id;
+    
+            const notificationResponse = await notificationClient.createNotification(
+                poster_user_id, 
+                `User with ID ${user_id} has liked your post with ID ${post_id}.`
             );
 
             return res.status(200).json({ message: 'Likes updated successfully'});

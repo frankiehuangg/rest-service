@@ -1,7 +1,6 @@
 import BlockSoapClient from "../../clients/BlockSoapClient";
 import { Request, Response } from "express";
 import axios from "axios";
-import { log } from "console";
 
 interface UserCard {
     user_id: number,
@@ -18,23 +17,16 @@ export const getBlockedUsersByUserId = async (req: Request, res: Response) => {
         const client = new BlockSoapClient()
 
         const response = await client.getBlockFromBlockedUserId(parseInt(user_id)) 
-        console.log(response);
 
         if (Array.isArray(response)) {
             const userData: UserCard[] = [];
-            console.log('aaaaa');
             
             for (const datum of response) {
                 const anyDatum : any = datum;
                 const user_id = anyDatum.blockingUserId;
-
-                console.log(user_id);
                 
 
                 const url = `http://monolithic-web:80/api/user?user_id=${user_id._text}`;
-                
-                console.log(url);
-                
 
                 const response = await axios.get(
                     url,
@@ -67,16 +59,10 @@ export const checkBlocked = async (req: Request, res: Response) => {
     try {
         const blockedUserId: string = typeof req.query.user_id == 'string' ? req.query.user_id : "";
         const blockingUserId = req.body.user_id
-        console.log(blockedUserId);
-        console.log(blockingUserId);
         
-        
-
         const client = new BlockSoapClient()
 
         const response = await client.checkUserBlocking(blockingUserId, parseInt(blockedUserId))
-
-        console.log('wtf');
 
         return res.status(200).json(response)
     } catch (err) {
@@ -89,11 +75,6 @@ export const blockUser = async (req: Request, res: Response) => {
         const blockedUserId = req.body.other_user_id
         const blockingUserId = req.body.user_id
 
-        console.log(blockedUserId);
-        console.log(blockingUserId);
-        
-        
-
         const client = new BlockSoapClient()
 
         const response = await client.createBlock(blockingUserId, blockedUserId)
@@ -105,10 +86,7 @@ export const blockUser = async (req: Request, res: Response) => {
 }
 
 export const unBlockUser = async (req: Request, res: Response) => {
-    try {
-
-        console.log(req.body);
-        
+    try {     
         const blockedUserId = req.body.other_user_id
         const blockingUserId = req.body.user_id
 
