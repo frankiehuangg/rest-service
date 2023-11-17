@@ -99,10 +99,3 @@ User Reports Endpoints
 | /user-reports | GET | 13521057 | untuk memperoleh laporan-laporan terhadap user |
 | /user-reports/status | PATCH | 13521057 | untuk memperbarui status dari laporan |
 | /forgot-password | PATCH | 13521078 | untuk memperbarui password sebuah akun |
-
-### Pembagian Tugas
-| NIM | Tugas |
-| --- | --- |
-| 13521057 | post reports endpoints, user reports endpoints, blocks endpoints, auth endpoints, beberapa user endpoints, post reply endpoints, beberapa follow endpoints |
-| 13521078 | ... |
-| 13521092 | ... |
