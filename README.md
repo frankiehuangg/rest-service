@@ -7,6 +7,9 @@
 REST service ini menangani layanan yang diperlukan oleh _client side_ seperti memperoleh data untuk tiap halaman, membuat data baru, menghapus data yang sudah ada, dll. Service ini dibuat menggunakan bahasa NodeTS dan Express.
 
 ### Skema Basis Data
+![Skema Basis Data](doc/RESTservice.png)
+
+NOTE: Bagian yang terdapat pada basis data adalah entitas yang berwarna biru
 
 ### Daftar Requirement
 Berikut merupakan daftar requirements untuk aplikasi:
