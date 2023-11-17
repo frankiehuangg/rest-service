@@ -28,7 +28,7 @@ class SoapServiceCaller {
 
     private parseXML(xml: string, method: string) {
         const json = JSON.parse(converter.xml2json(xml, { compact: true, spaces: 4}));
-        const returnVal = json['S:Envelope']['S:Body']['ns2:' + method + 'Response']['Return'];
+        const returnVal = json['S:Envelope']['S:Body']['ns2:' + method + 'Response']['return'];
 
         if (!returnVal) {
             return null;
@@ -42,15 +42,16 @@ class SoapServiceCaller {
             return json.map((item) => this.flatten(item));
         }
 
-        return this.flatten(json);
+        return [this.flatten(json)];
     }
 
     private flatten(json: JSON): JSON {
+        console.log(json);
         const response: any = {};
 
         Object.keys(json).forEach((key) => {
             const value = json[key as keyof typeof json];
-            response[key] = value['_text' as keyof typeof value];
+            response[key] = value;
         });
 
         return response;
@@ -59,7 +60,7 @@ class SoapServiceCaller {
     private buildXMLRequest(method: string, params?: Object) {
         const strParams = this.buildXMLParams(params);
 
-        return `
+        const xml = `
         <Envelope xmlns="http://schemas.xmlsoap.org/soap/envelope/">
             <Body>
                 <${method} xmlns="http://ws/">
@@ -68,6 +69,10 @@ class SoapServiceCaller {
             </Body>
         </Envelope>
         `;
+
+        console.log(xml);
+
+        return xml;
     }
 
     private buildXMLParams(params?: Object) {
