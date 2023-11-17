@@ -12,8 +12,12 @@ import { verifyAdminToken, verifyTokenGeneral } from './src/middleware/verifyTok
 import { getPostReports, setPostReportStatus } from './src/handler/reports/post_report';
 import { getUserReports, setUserReportStatus } from './src/handler/reports/user_reports';
 import { getUserData, updateUserData, deleteUserData } from './src/handler/user/user';
-import { getPostByPostId, getResourceByPostId, getUserByPostId } from './src/handler/posts/posts';
+import { getPostByPostId, getResourceByPostId, getUserByPostId, getRepliesByPostId, getForYouPagePosts, createPost, createRepliesByPostId, getUserPostsByUserId } from './src/handler/posts/posts';
 import { decodeToken } from './src/middleware/tokenDecode';
+import { checkLikedByPostId, deleteLikesByPostId, insertLikesByPostId } from './src/handler/likes/likes';
+import { checkUserFollowing, followUserWithUserId, getFollowerFromUserId, getFollowingFromUserId, unfollowUserWithUserId } from './src/handler/follows/follows';
+import { blockUser, checkBlocked, getBlockedUsersByUserId, unBlockUser } from './src/handler/follows/blocks';
+import { decode } from 'punycode';
 
 const app = express();
 const PORT = process.env.REST_PORT;
@@ -39,7 +43,11 @@ app.get('/', (_, res) => {
 /* USER API ENDPOINTS */
 /**********************/
 
-app.get('/user', decodeToken, getUserData)
+app.get('/user', getUserData)
+
+app.get('/user/current', decodeToken, getUserData)
+
+app.get('/user/post', getUserPostsByUserId);
 
 app.patch('/user', decodeToken, updateUserData)
 
@@ -51,9 +59,53 @@ app.delete('/user', decodeToken, deleteUserData)
 
 app.get('/post', getPostByPostId);
 
+app.post('/post', decodeToken, createPost);
+
 app.get('/post/user', getUserByPostId);
 
 app.get('/post/resource', getResourceByPostId);
+
+app.get('/post/replies', getRepliesByPostId);
+
+app.post('/post/replies', createRepliesByPostId);
+
+app.get('/post/fyp', getForYouPagePosts);
+
+/**********************/
+/* LIKE API ENDPOINTS */
+/**********************/
+
+app.get('/likes', decodeToken, checkLikedByPostId);
+
+app.patch('/likes', decodeToken, insertLikesByPostId);
+
+app.delete('/likes', decodeToken, deleteLikesByPostId);
+
+/************************/
+/* FOLLOW API ENDPOINTS */
+/************************/
+
+app.get('/followings', getFollowingFromUserId);
+
+app.get('/followers', getFollowerFromUserId);
+
+app.get('/follow', decodeToken, checkUserFollowing);
+
+app.post('/follow', decodeToken, followUserWithUserId);
+
+app.delete('/follow', decodeToken, unfollowUserWithUserId);
+
+/************************/
+/* BLOCK API ENDPOINTS  */
+/************************/
+
+app.get('/blocks', getBlockedUsersByUserId)
+
+app.get('/block', decodeToken, checkBlocked)
+
+app.post('/block', decodeToken, blockUser)
+
+app.delete('/block', decodeToken, unBlockUser)
 
 /**********************/
 /* AUTH API ENDPOINTS */

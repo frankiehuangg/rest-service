@@ -4,7 +4,7 @@ import qs from 'qs';
 
 export const getUserData = async (req: Request, res: Response) => {
     try {
-        const user_id = req.query.user_id;
+        const user_id = req.query.user_id ? req.query.user_id : req.body.user_id;
 
         const url = `http://monolithic-web:80/api/user?user_id=${user_id}`;
 
@@ -49,7 +49,7 @@ export const updateUserData = async (req: Request, res: Response) => {
 
         const data = response.data.data
 
-        return res.status(200).json({ message: "Update successful" })
+        return res.status(200).json(data)
     } catch (err) {
         if (axios.isAxiosError(err)) {
             if (err.response?.status === 400) {
