@@ -19,6 +19,8 @@ class SoapServiceCaller {
             'api-key' : process.env.SOAP_API_KEY
         };
 
+        console.log(headers);
+
         const xml = this.buildXMLRequest(method, params);
         const response = await axios.post(this.url, xml, {headers});
         const data = response.data;
@@ -46,7 +48,6 @@ class SoapServiceCaller {
     }
 
     private flatten(json: JSON): JSON {
-        console.log(json);
         const response: any = {};
 
         Object.keys(json).forEach((key) => {
@@ -69,8 +70,6 @@ class SoapServiceCaller {
             </Body>
         </Envelope>
         `;
-
-        console.log(xml);
 
         return xml;
     }
