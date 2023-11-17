@@ -17,7 +17,7 @@ import { decodeToken } from './src/middleware/tokenDecode';
 import { checkLikedByPostId, deleteLikesByPostId, insertLikesByPostId } from './src/handler/likes/likes';
 import { checkUserFollowing, followUserWithUserId, getFollowerFromUserId, getFollowingFromUserId, unfollowUserWithUserId } from './src/handler/follows/follows';
 import { blockUser, checkBlocked, getBlockedUsersByUserId, unBlockUser } from './src/handler/follows/blocks';
-import { decode } from 'punycode';
+import { getNotificationsByUserId } from './src/handler/notifications/notifications';
 
 const app = express();
 const PORT = process.env.REST_PORT;
@@ -106,6 +106,12 @@ app.get('/block', decodeToken, checkBlocked)
 app.post('/block', decodeToken, blockUser)
 
 app.delete('/block', decodeToken, unBlockUser)
+
+/******************************/
+/* NOTIFICATION API ENDPOINTS */
+/******************************/
+
+app.get('/notifications', decodeToken, getNotificationsByUserId);
 
 /**********************/
 /* AUTH API ENDPOINTS */
