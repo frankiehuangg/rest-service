@@ -5,10 +5,9 @@ WORKDIR /usr/src/app
 
 COPY package*.json ./
 
-RUN rm -rf node_modules & \
-    npm install
+RUN npm install
 
-COPY . .
+COPY . ./
 
 RUN npx prisma generate
 

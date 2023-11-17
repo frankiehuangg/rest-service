@@ -1,18 +1,17 @@
-version: '3.3'
+version: '3.9'
 
 services:
   rest-service:
     container_name: rest-service
     build: .
-    networks: 
-      - rest-database
     hostname: rest-service
     volumes:
       - .:/usr/src/app
+      - /usr/src/app/node_modules
     env_file:
       - .env
     ports:
-      - 8010:8000
+      - "8000:8000"
     depends_on:
       rest-db:
         condition: service_healthy
@@ -20,24 +19,19 @@ services:
   rest-db:
     container_name: rest-db
     image: postgres:16
-    networks: 
-      - rest-database
     hostname: rest-db
     ports:
-      - 5433:5432
+      - "5433:5432"
     restart: always
     environment:
-      DATABASE_URL: ${DATABASE_URL}
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_DB: ${POSTGRES_DB}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      DATABASE_URL: ${REST_DATABASE_URL}
+      POSTGRES_USER: ${REST_POSTGRES_USER}
+      POSTGRES_DB: ${REST_POSTGRES_DB}
+      POSTGRES_PASSWORD: ${REST_POSTGRES_PASSWORD}
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      test: ["CMD-SHELL", "pg_isready -U ${REST_POSTGRES_USER} -d ${REST_POSTGRES_DB}"]
       interval: 5s
       timeout: 5s
       retries: 5
     volumes:
       - ./db:/var/lib/postgresql/data
-
-networks:
-  rest-database:
